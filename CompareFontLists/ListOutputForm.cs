@@ -51,7 +51,7 @@ namespace CompareFontLists
 
                 if (!targetList.Contains(entry))
                 {
-                    listView1.Items[listView1.Items.Count - 1].BackColor = Color.Aqua;
+                    //listView1.Items[listView1.Items.Count - 1].BackColor = Color.Aqua;
                     uniqueSourceList.Add(entry);
                 }
             }
@@ -64,7 +64,7 @@ namespace CompareFontLists
                 listView2.Items.Add(entry);
                 if (!sourceList.Contains(entry))
                 {
-                    listView2.Items[listView2.Items.Count - 1].BackColor = Color.Aqua;
+                    //listView2.Items[listView2.Items.Count - 1].BackColor = Color.Aqua;
                     uniqueTargetList.Add(entry);
                 }
             }
@@ -80,7 +80,7 @@ namespace CompareFontLists
 
         private void sourceTransferButton_Click(object sender, System.EventArgs e)
         {
-            var folderLocation = $"{label2.Text.Replace("FontList.txt", string.Empty)}UniqueFonts";
+            /*var folderLocation = $"{label2.Text.Replace("FontList.txt", string.Empty)}UniqueFonts";
 
             var csv = "G:/Apps/MISFontList/fonts.csv";
 
@@ -107,12 +107,12 @@ namespace CompareFontLists
                 locationElements = sheetRow[0].Text.Split('/');
 
                 File.Copy(sheetRow[0].Text, $"{folderLocation}/{locationElements.Last()}");
-            }
+            }*/
         }
 
         private void targetTransferButton_Click(object sender, System.EventArgs e)
         {
-            var folderLocation = $"{label2.Text.Replace("FontList.txt", string.Empty)}UniqueFonts";
+            /*var folderLocation = $"{label2.Text.Replace("FontList.txt", string.Empty)}UniqueFonts";
 
             var csv = "G:/Apps/MISFontList/fonts.csv";
 
@@ -139,7 +139,37 @@ namespace CompareFontLists
                 locationElements = sheetRow[0].Text.Split('/');
 
                 File.Copy(sheetRow[0].Text, $"{folderLocation}/{locationElements.Last()}");
+            }*/
+        }
+
+        private void checkBox1_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                for(int i = 0; i < listView1.Items.Count; i++)
+                {
+                    if(uniqueSourceList.Contains(listView1.Items[i].Text))
+                        listView1.Items[i].BackColor = Color.Aqua;
+                }
+                for (int i = 0; i < listView2.Items.Count; i++)
+                {
+                    if (uniqueTargetList.Contains(listView2.Items[i].Text))
+                        listView2.Items[i].BackColor = Color.Aqua;
+                }
             }
+            else
+            {
+                for (int i = 0; i < listView1.Items.Count; i++)
+                {
+                    listView1.Items[i].BackColor = Color.Empty;
+                }
+                for (int i = 0; i < listView2.Items.Count; i++)
+                {
+                    listView2.Items[i].BackColor = Color.Empty;
+                }
+            }
+            listView1.Update();
+            listView2.Update();
         }
     }
 }

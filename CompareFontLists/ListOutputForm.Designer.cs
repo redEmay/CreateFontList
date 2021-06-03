@@ -37,6 +37,7 @@ namespace CompareFontLists
             this.targetTransferButton = new System.Windows.Forms.Button();
             this.listView1 = new System.Windows.Forms.ListView();
             this.listView2 = new System.Windows.Forms.ListView();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // label1
@@ -98,28 +99,44 @@ namespace CompareFontLists
             // listView1
             // 
             this.listView1.FullRowSelect = true;
+            this.listView1.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(25, 87);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(204, 288);
             this.listView1.TabIndex = 6;
             this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.List;
             // 
             // listView2
             // 
             this.listView2.FullRowSelect = true;
+            this.listView2.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.None;
             this.listView2.HideSelection = false;
             this.listView2.Location = new System.Drawing.Point(394, 87);
             this.listView2.Name = "listView2";
             this.listView2.Size = new System.Drawing.Size(184, 288);
             this.listView2.TabIndex = 7;
             this.listView2.UseCompatibleStateImageBehavior = false;
+            this.listView2.View = System.Windows.Forms.View.List;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(256, 274);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(117, 19);
+            this.checkBox1.TabIndex = 8;
+            this.checkBox1.Text = "Highlight Unique";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
             // ListOutputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(643, 417);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.listView2);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.targetTransferButton);
@@ -145,5 +162,6 @@ namespace CompareFontLists
         private System.Windows.Forms.Button targetTransferButton;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ListView listView2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
