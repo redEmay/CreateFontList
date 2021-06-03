@@ -6,7 +6,7 @@ namespace CreateFontList
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            ListCreator.CreateList();
         }
     }
 }
