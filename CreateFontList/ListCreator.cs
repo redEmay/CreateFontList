@@ -35,7 +35,7 @@ namespace CreateFontList
 
             var distinctFontList = GetFont(initialProcessesList, fileList, ref fontList);
 
-            var fileToMove = $"{appSettings.Location.OldFontListFileLocation}List-{File.GetLastAccessTime(appSettings.Location.ShareFontListFileLocation).ToString("yyyy-MM-dd H:mm")}.txt";
+            var fileToMove = $"{appSettings.Location.OldFontListFileLocation}List-{File.GetLastAccessTime(appSettings.Location.ShareFontListFileLocation).ToString("yyyy-MM-dd H-mm")}.txt";
 
             if (File.Exists(appSettings.Location.ShareFontListFileLocation))
             {
@@ -56,7 +56,7 @@ namespace CreateFontList
                 fileList = File.ReadAllLines(appSettings.Location.MISFontListFileLocation).ToList();
 
                 File.Copy(appSettings.Location.MISFontListFileLocation,
-                    $"{appSettings.Location.MISOldFontList}{File.GetCreationTime(appSettings.Location.MISFontListFileLocation).ToString("yyyy-MM-dd H:mm")}.csv");
+                    $"{appSettings.Location.MISOldFontList}{File.GetCreationTime(appSettings.Location.MISFontListFileLocation).ToString("yyyy-MM-dd H-mm")}.csv");
 
                 File.Delete(appSettings.Location.MISFontListFileLocation);
             }
