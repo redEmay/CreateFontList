@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace CreateFontList.AppSettings
+﻿namespace CreateFontList
 {
     public class Locations
     {
+        public string SourceDirectory { get; set; }
+        public string TargetDirectory { get; set; }
+        public string ShareFontListFileLocation { get; set; }
+        public string OldFontListLocation { get; set; }
+        public string MISOldFontList { get; set; }
+        public string MISFontListFileLocation { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace CreateFontList.AppSettings
+﻿namespace CreateFontList
 {
     public interface IAppSettings
     {
