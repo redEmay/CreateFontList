@@ -36,6 +36,7 @@ namespace CompareFontLists
             label3.Text = $"{sourceList.Count}";
             label4.Text = $"{targetList.Count}";
 
+
             listView1.Columns.Add("Font", -2, HorizontalAlignment.Left);
 
             TrimEndOfAllEntries(ref sourceList);
