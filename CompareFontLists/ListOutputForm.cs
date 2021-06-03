@@ -33,8 +33,8 @@ namespace CompareFontLists
             sourceLocation = label1.Text;
             targetLocation = label2.Text;
 
-            label3.Text = $"{sourceList.Count}";
-            label4.Text = $"{targetList.Count}";
+            label3.Text = $"{sourceList.Count} Entries";
+            label4.Text = $"{targetList.Count} Entries";
 
 
             listView1.Columns.Add("Font", -2, HorizontalAlignment.Left);
@@ -50,11 +50,9 @@ namespace CompareFontLists
                 listView1.Items.Add(entry.Trim());
 
                 if (!targetList.Contains(entry))
-                {
-                    //listView1.Items[listView1.Items.Count - 1].BackColor = Color.Aqua;
                     uniqueSourceList.Add(entry);
-                }
             }
+            label5.Text = $"{uniqueSourceList.Count} Unique Entries";
 
             foreach (var entry in targetList)
             {
@@ -63,11 +61,9 @@ namespace CompareFontLists
 
                 listView2.Items.Add(entry);
                 if (!sourceList.Contains(entry))
-                {
-                    //listView2.Items[listView2.Items.Count - 1].BackColor = Color.Aqua;
                     uniqueTargetList.Add(entry);
-                }
             }
+            label6.Text = $"{uniqueTargetList.Count} Unique Entries";
         }
 
         private void TrimEndOfAllEntries(ref List<string> sourceList)
@@ -146,11 +142,14 @@ namespace CompareFontLists
         {
             if (checkBox1.Checked)
             {
+                label5.Visible = true;
                 for(int i = 0; i < listView1.Items.Count; i++)
                 {
                     if(uniqueSourceList.Contains(listView1.Items[i].Text))
                         listView1.Items[i].BackColor = Color.Aqua;
                 }
+                label6.Visible = true;
+
                 for (int i = 0; i < listView2.Items.Count; i++)
                 {
                     if (uniqueTargetList.Contains(listView2.Items[i].Text))
@@ -159,10 +158,13 @@ namespace CompareFontLists
             }
             else
             {
+                label5.Visible = false;
                 for (int i = 0; i < listView1.Items.Count; i++)
                 {
                     listView1.Items[i].BackColor = Color.Empty;
                 }
+
+                label6.Visible = false;
                 for (int i = 0; i < listView2.Items.Count; i++)
                 {
                     listView2.Items[i].BackColor = Color.Empty;
