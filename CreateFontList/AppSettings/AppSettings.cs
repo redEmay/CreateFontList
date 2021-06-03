@@ -12,8 +12,8 @@ namespace CreateFontList
         {
             var configuration = new ConfigurationBuilder().AddJsonFile(CONFIGURATION_FILE, false).Build();
 
-            var serviceProvider = new ServiceCollection().
-                AddOptions()
+            var serviceProvider = new ServiceCollection()
+                .AddOptions()
                 .Configure<Locations>(o => configuration.GetSection(nameof(Locations)).Bind(o)).BuildServiceProvider();
 
             Location = serviceProvider.GetRequiredService<IOptions<Locations>>().Value;
