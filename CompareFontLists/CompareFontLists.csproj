@@ -6,4 +6,12 @@
     <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="IronXL.Excel" Version="2020.12.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CreateFontList\CreateFontList.csproj" />
+  </ItemGroup>
+
 </Project>

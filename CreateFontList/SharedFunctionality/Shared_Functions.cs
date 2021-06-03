@@ -4,7 +4,7 @@ using System.IO;
 
 namespace CreateFontList.SharedFunctionality
 {
-    class Shared_Functions
+    public class Shared_Functions
     {
         public static void DeleteDirectory(string target_dir)
         {
