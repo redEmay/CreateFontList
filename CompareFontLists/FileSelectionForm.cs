@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using CreateFontList;
 
 namespace CompareFontLists
 {
     public partial class FileSelectionForm : Form
     {
+        IAppSettings appsettings { get; set; }
+
         public FileSelectionForm()
         {
             InitializeComponent();
+            appsettings = new AppSettings();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -32,10 +36,10 @@ namespace CompareFontLists
 
                 try
                 {
-                    if (!File.Exists("S:/FontList/FontList.txt"))
-                        MessageBox.Show("S:/FontList/FontList.txt doesn't exist");
+                    if (!File.Exists(appsettings.Location.ShareFontListFileLocation))
+                        MessageBox.Show($"{appsettings.Location.ShareFontListFileLocation} doesn't exist");
                     else
-                        sourceList = File.ReadAllLines("S:/FontList/FontList.txt").ToList();
+                        sourceList = File.ReadAllLines(appsettings.Location.ShareFontListFileLocation).ToList();
 
                     foreach (var entry in sourceList)
                     {
@@ -57,7 +61,7 @@ namespace CompareFontLists
 
                     var form = new ListOutputForm();
                     form.Show();
-                    form.ShowLists("S:/FontList/FontList.txt", sourceList, textBox1.Text, targetList);
+                    form.ShowLists(appsettings.Location.ShareFontListFileLocation, sourceList, textBox1.Text, targetList);
                 }
                 catch { MessageBox.Show("Couldn't create lists"); }
             }
