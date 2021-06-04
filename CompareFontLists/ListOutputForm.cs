@@ -76,7 +76,7 @@ namespace CompareFontLists
 
         private void sourceTransferButton_Click(object sender, System.EventArgs e)
         {
-            /*var folderLocation = $"{label2.Text.Replace("FontList.txt", string.Empty)}UniqueFonts";
+            var folderLocation = $"{label2.Text.Replace("FontList.txt", string.Empty)}UniqueFonts";
 
             var csv = "G:/Apps/MISFontList/fonts.csv";
 
@@ -103,7 +103,7 @@ namespace CompareFontLists
                 locationElements = sheetRow[0].Text.Split('/');
 
                 File.Copy(sheetRow[0].Text, $"{folderLocation}/{locationElements.Last()}");
-            }*/
+            }
         }
 
         private void targetTransferButton_Click(object sender, System.EventArgs e)

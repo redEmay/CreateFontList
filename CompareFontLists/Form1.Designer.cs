@@ -1,5 +1,4 @@
-﻿
-namespace CompareFontLists
+﻿namespace CompareFontLists
 {
     partial class Form1
     {
