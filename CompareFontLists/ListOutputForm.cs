@@ -12,6 +12,8 @@ namespace CompareFontLists
     {
         public string sourceLocation { get; set; }
         public string targetLocation { get; set; }
+        public List<string> originalSourceList { get; set; }
+        public List<string> originalTargetList { get; set; }
         public List<string> uniqueSourceList { get; set; }
         public List<string> uniqueTargetList { get; set; }
         
@@ -19,6 +21,8 @@ namespace CompareFontLists
         {
             sourceLocation = string.Empty;
             targetLocation = string.Empty;
+            originalSourceList = new List<string>();
+            originalTargetList = new List<string>();
             uniqueSourceList = new List<string>();
             uniqueTargetList = new List<string>();
             InitializeComponent();
@@ -47,7 +51,8 @@ namespace CompareFontLists
                 if (entry == string.Empty)
                     continue;
 
-                listView1.Items.Add(entry.Trim());
+                listView1.Items.Add(entry);
+                originalSourceList.Add(entry);
 
                 if (!targetList.Contains(entry))
                     uniqueSourceList.Add(entry);
@@ -60,6 +65,8 @@ namespace CompareFontLists
                     continue;
 
                 listView2.Items.Add(entry);
+                originalTargetList.Add(entry);
+
                 if (!sourceList.Contains(entry))
                     uniqueTargetList.Add(entry);
             }
@@ -172,6 +179,42 @@ namespace CompareFontLists
             }
             listView1.Update();
             listView2.Update();
+        }
+
+        private void checkBox2_CheckedChanged(object sender, System.EventArgs e)
+        {
+            if (checkBox2.Checked)
+            {
+                listView1.Items.Clear();
+
+                foreach(var entry in uniqueSourceList)
+                {
+                    listView1.Items.Add(entry);
+                }
+
+                listView2.Items.Clear();
+
+                foreach(var entry in uniqueTargetList)
+                {
+                    listView2.Items.Add(entry);
+                }
+            }
+            else
+            {
+                listView1.Items.Clear();
+
+                foreach (var entry in originalSourceList)
+                {
+                    listView1.Items.Add(entry);
+                }
+
+                listView2.Items.Clear();
+
+                foreach (var entry in originalTargetList)
+                {
+                    listView2.Items.Add(entry);
+                }
+            }
         }
     }
 }
