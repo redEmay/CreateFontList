@@ -66,5 +66,19 @@ namespace CompareFontLists
                 catch { MessageBox.Show("Couldn't create lists"); }
             }
         }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                Height = 325;
+                button1.Location = new System.Drawing.Point(214, 253);
+            }
+            else
+            {
+                Height = 150;
+                button1.Location = new System.Drawing.Point(317, 74);
+            }
+        }
     }
 }

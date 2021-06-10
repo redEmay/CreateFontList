@@ -47,7 +47,10 @@ namespace CreateFontList
             {
                 foreach (var font in distinctFontList)
                 {
-                    sw.WriteLine(font.Trim());
+                    if (font.Length > 50)
+                        sw.WriteLine(font.Trim().Substring(0, 50));
+                    else
+                        sw.WriteLine(font.Trim());
                 }
             }
 
@@ -100,7 +103,7 @@ namespace CreateFontList
                         Console.WriteLine();
 
                     font.Add(Tuple.Create(directoryList[j], process.MainWindowTitle.Replace("(TrueType)", "")));
-                    listResult.Add(process.MainWindowTitle.Replace("(TrueType)", ""));
+                    listResult.Add(process.MainWindowTitle.Replace("(TrueType)", ""));                    
                 }
                 else if (process.MainWindowTitle.Contains("(OpenType)"))
                 {
