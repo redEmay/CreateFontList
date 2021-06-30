@@ -86,6 +86,16 @@ namespace CreateFontList
             if (Directory.Exists(targetDirectory))
                 SharedFunctionality.Shared_Functions.DeleteDirectory(targetDirectory);
         }
+        private static string RemoveBadCharacters(string fileName)
+        {
+            var badCharacters = new List<string> { "<", ">", ":", "\"", "/", "\\", "|", "?", "*" };
+            
+            foreach(var character in badCharacters)
+            {
+                fileName = fileName.Replace(character, string.Empty);
+            }
+            return fileName;
+        }
 
         private static IEnumerable<string> GetFont(List<Process> initialProcessList, List<string> directoryList,
            ref List<Tuple<string, string>> font, string targetDirectory = @"C:\temp\FontFolder\")
@@ -98,6 +108,9 @@ namespace CreateFontList
             var rect = new User32.Rect();
 
             var i = 0;
+            var counter = 0;
+
+            var fileName = "";
 
             for (int j = 0; j < directoryList.Count; j++)
             {
@@ -120,9 +133,7 @@ namespace CreateFontList
                 var bmp = new Bitmap(rect.right - rect.left, rect.bottom - rect.top, PixelFormat.Format32bppArgb);
                 using (Graphics graphics = Graphics.FromImage(bmp))
                 {
-                    graphics.CopyFromScreen(rect.left, rect.top, 0, 0, new Size(rect.right - rect.left, rect.bottom - rect.top), CopyPixelOperation.SourceCopy);
-                    //graphics.CopyFromScreen(rect.left, rect.top, 0, 0, new Size(1000, 1000), CopyPixelOperation.SourceCopy);
-                    //graphics.CopyFromScreen(rect.left, rect.top, 200, 200, new Size(rect.right - rect.left, rect.bottom - rect.top), CopyPixelOperation.SourceCopy);
+                    graphics.CopyFromScreen(rect.left, rect.top, 0, 0, new Size(rect.right - rect.left, rect.bottom - rect.top), CopyPixelOperation.SourceCopy);      
                 }
 
                 if (process.MainWindowTitle.Contains("(TrueType)"))
@@ -133,29 +144,87 @@ namespace CreateFontList
                     font.Add(Tuple.Create(directoryList[j], process.MainWindowTitle.Replace("(TrueType)", "")));
                     listResult.Add(process.MainWindowTitle.Replace("(TrueType)", ""));
 
-                    if(process.MainWindowTitle.Length>20)
-                        bmp.Save($@"C:\Users\Erik May\Documents\Images\{process.MainWindowTitle.Replace("(TrueType)", "").Substring(0, 10)}[{j}].jpeg",
-                            ImageFormat.Jpeg);
+                    fileName = RemoveBadCharacters(process.MainWindowTitle.Replace("(TrueType)", ""));
+
+                    if (fileName.Length > 20)
+                    {
+                        if (File.Exists($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}.jpeg"))
+                        {
+                            //save new version of the font
+                            do
+                            {
+                                counter++;
+                            } while (File.Exists($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}]"));
+                           
+                            bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}].jpeg",
+                                ImageFormat.Jpeg);
+
+                            counter = 0;    //reset counter
+                        }
+                        else
+                        {
+                            bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}.jpeg",
+                                ImageFormat.Jpeg);
+                        }
+                    }
                     else
-                        bmp.Save($@"C:\Users\Erik May\Documents\Images\{process.MainWindowTitle.Replace("(TrueType)", "")}[{j}].jpeg",
-                            ImageFormat.Jpeg);
+                    {
+                        if (File.Exists($@"C:\Users\Erik May\Documents\Images\{fileName}.jpeg"))
+                        {
+                            do
+                            {
+                                counter++;
+                            } while (File.Exists($@"C:\Users\Erik May\Documents\Images\{fileName}[{counter}].jpeg"));
+                            
+                            bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName}[{counter}].jpeg");
+
+                            counter = 0;
+                        }
+                        else
+                        {
+                            bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName}.jpeg",
+                                ImageFormat.Jpeg);
+                        }
+                    }
                 }
                 else if (process.MainWindowTitle.Contains("(OpenType)"))
                 {
                     font.Add(Tuple.Create(directoryList[j], process.MainWindowTitle.Replace("(OpenType)", "")));
                     listResult.Add(process.MainWindowTitle.Replace("(OpenType)", ""));
 
-                    if(process.MainWindowTitle.Length>20)
-                        bmp.Save($@"C:\Users\Erik May\Documents\Images\{process.MainWindowTitle.Replace("(OpenType)", "").Substring(0, 10)}.jpeg",
-                            ImageFormat.Jpeg);
+                    fileName = RemoveBadCharacters(process.MainWindowTitle.Replace("(OpenType)", ""));
+
+                    if (fileName.Length > 20)
+                    {
+                        if (File.Exists($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}.jpeg"))
+                        {
+                            do
+                            {
+                                counter++;
+                            } while (File.Exists($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}].jpeg"));
+
+                            bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}].jpeg");
+
+                            counter = 0;
+                        }
+                        else
+                        {
+                            bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}.jpeg",
+                                ImageFormat.Jpeg);
+                        }
+                    }
                     else
-                        bmp.Save($@"C:\Users\Erik May\Documents\Images\{process.MainWindowTitle.Replace("(OpenType)", "")}.jpeg",
+                    {
+                        bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName}.jpeg",
                            ImageFormat.Jpeg);
+                    }
                 }
                 else
                 {
                     font.Add(Tuple.Create($"{directoryList[j].Replace(targetDirectory, @"G:\Apps\Fonts\")}", process.MainWindowTitle));
                     listResult.Add(process.MainWindowTitle);
+
+                    fileName = RemoveBadCharacters(process.MainWindowTitle);
 
                     bmp.Save($@"C:\Users\Erik May\Documents\Images\{process.MainWindowTitle}.jpeg", ImageFormat.Jpeg);
                 }
