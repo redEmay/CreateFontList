@@ -26,5 +26,11 @@ namespace CompareFontLists
             var form = new FileSelectionForm();
             form.Show();
         }
+
+        private void showFontsButton_Click(object sender, EventArgs e)
+        {
+            var form = new ShowFontForm();
+            form.Show();
+        }
     }
 }

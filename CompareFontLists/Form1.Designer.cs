@@ -31,6 +31,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.showFontsButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -62,11 +63,22 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "What do you wish to do?";
             // 
+            // showFontsButton
+            // 
+            this.showFontsButton.Location = new System.Drawing.Point(133, 176);
+            this.showFontsButton.Name = "showFontsButton";
+            this.showFontsButton.Size = new System.Drawing.Size(125, 63);
+            this.showFontsButton.TabIndex = 3;
+            this.showFontsButton.Text = "Show Fonts";
+            this.showFontsButton.UseVisualStyleBackColor = true;
+            this.showFontsButton.Click += new System.EventHandler(this.showFontsButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(394, 173);
+            this.ClientSize = new System.Drawing.Size(394, 330);
+            this.Controls.Add(this.showFontsButton);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -83,6 +95,7 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button showFontsButton;
     }
 }
 

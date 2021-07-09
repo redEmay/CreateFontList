@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CreateFontList.Classes;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -55,10 +56,10 @@ namespace CreateFontList
             {
                 foreach (var font in distinctFontList)
                 {
-                    if (font.Length > 50)
-                        sw.WriteLine(font.Trim().Substring(0, 50));
+                    if (font.getFontName().Length > 50)
+                        sw.WriteLine(font.getFontName().Trim().Substring(0, 50));
                     else
-                        sw.WriteLine(font.Trim());
+                        sw.WriteLine(font.getFontName().Trim());
                 }
             }
 
@@ -74,13 +75,18 @@ namespace CreateFontList
 
             using (StreamWriter sw = new StreamWriter(appSettings.Location.MISFontListFileLocation))
             {
-                foreach (var font in fontList)
+                foreach(var font in distinctFontList)
+                {
+                    sw.WriteLine($"{font.getDirectoryLocation().Replace("C:/temp/FontFolder", "G:/Apps/Fonts").Trim()},{font.getFontName()},{font.getBitMap()}");
+                }
+
+                /*foreach (var font in fontList)
                 {
                     if (font.Item2.Length > 50)
                         sw.WriteLine($"{font.Item1.Replace("C:/temp/FontFolder", "G:/Apps/Fonts").Trim()},{font.Item2.Trim().Substring(0, 50)}");
                     else
                         sw.WriteLine($"{font.Item1.Replace("C:/temp/FontFolder", "G:/Apps/Fonts").Trim()},{font.Item2.Trim()}");
-                }
+                }*/
             }
 
             if (Directory.Exists(targetDirectory))
@@ -97,10 +103,11 @@ namespace CreateFontList
             return fileName;
         }
 
-        private static IEnumerable<string> GetFont(List<Process> initialProcessList, List<string> directoryList,
+        private static IEnumerable<FontItem> GetFont(List<Process> initialProcessList, List<string> directoryList,
            ref List<Tuple<string, string>> font, string targetDirectory = @"C:\temp\FontFolder\")
         {
             List<string> listResult = new List<string>();
+            List<FontItem> fontItemList = new List<FontItem>();
             ProcessStartInfo objProcess = new ProcessStartInfo();
             objProcess.UseShellExecute = true;
             objProcess.RedirectStandardOutput = false;
@@ -159,12 +166,19 @@ namespace CreateFontList
                             bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}].jpeg",
                                 ImageFormat.Jpeg);
 
+                            var item = new FontItem(directoryList[j], fileName,
+                                $@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}].jpeg");
+
                             counter = 0;    //reset counter
                         }
                         else
                         {
                             bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}.jpeg",
                                 ImageFormat.Jpeg);
+
+                            var item = new FontItem(directoryList[j], fileName,
+                                $@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}.jpeg");
+                            fontItemList.Add(item);
                         }
                     }
                     else
@@ -179,11 +193,19 @@ namespace CreateFontList
                             bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName}[{counter}].jpeg");
 
                             counter = 0;
+
+                            var item = new FontItem(directoryList[j], fileName,
+                                $@"C:\Users\Erik May\Documents\Images\{fileName}[{counter}].jpeg");
+                            fontItemList.Add(item);
                         }
                         else
                         {
                             bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName}.jpeg",
                                 ImageFormat.Jpeg);
+
+                            var item = new FontItem(directoryList[j], fileName,
+                                $@"C:\Users\Erik May\Documents\Images\{fileName}.jpeg");
+                            fontItemList.Add(item);
                         }
                     }
                 }
@@ -203,6 +225,10 @@ namespace CreateFontList
                                 counter++;
                             } while (File.Exists($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}].jpeg"));
 
+                            var item = new FontItem(directoryList[j], fileName,
+                                $@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}].jpeg");
+                            fontItemList.Add(item);
+
                             bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}[{counter}].jpeg");
 
                             counter = 0;
@@ -211,30 +237,43 @@ namespace CreateFontList
                         {
                             bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}.jpeg",
                                 ImageFormat.Jpeg);
+
+                            var item = new FontItem(directoryList[j], fileName,
+                                $@"C:\Users\Erik May\Documents\Images\{fileName.Substring(0, 20)}.jpeg");
+                            fontItemList.Add(item);
                         }
                     }
                     else
                     {
                         bmp.Save($@"C:\Users\Erik May\Documents\Images\{fileName}.jpeg",
                            ImageFormat.Jpeg);
+                        var item = new FontItem(directoryList[j], fileName,
+                                $@"C:\Users\Erik May\Documents\Images\{fileName}.jpeg");
+                        fontItemList.Add(item);
                     }
                 }
                 else
                 {
+                    if (process.MainWindowTitle.StartsWith(@"C:\Users\Erik May")) continue;
                     font.Add(Tuple.Create($"{directoryList[j].Replace(targetDirectory, @"G:\Apps\Fonts\")}", process.MainWindowTitle));
                     listResult.Add(process.MainWindowTitle);
 
                     fileName = RemoveBadCharacters(process.MainWindowTitle);
 
+                    var item = new FontItem(directoryList[j].Replace(targetDirectory, @"G:\Apps\Fonts\"), fileName,
+                        $@"C:\Users\Erik May\Documents\Images\{process.MainWindowTitle}.jpeg");
+                    fontItemList.Add(item);
                     bmp.Save($@"C:\Users\Erik May\Documents\Images\{process.MainWindowTitle}.jpeg", ImageFormat.Jpeg);
                 }
 
                 process.Kill();
             }
-            var result = listResult.Distinct();
+            var thing = fontItemList;
+            var result = fontItemList.Distinct();
+            //var result = listResult.Distinct();
             return result;
         }
-    }
+    }//1469469
 
     public static class User32
     {
